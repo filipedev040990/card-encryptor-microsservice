@@ -1,0 +1,19 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://root:123456789@mysql:3306/card_encryptor"
+}
+
+model Cards {
+  id            String   @id
+  encryptedCard String   @db.LongText()
+  createdAt     DateTime
+
+  @@map("cards")
+}
