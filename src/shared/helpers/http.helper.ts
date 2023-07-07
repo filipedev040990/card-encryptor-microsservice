@@ -1,27 +1,27 @@
-import { HttpResponse } from '@/shared/types'
+import { OutputController } from '@/shared/types'
 import { UnauthorizedError, ForbiddenError } from '../errors'
 
-export const success = (statusCode: number, body: any): HttpResponse => ({
+export const success = (statusCode: number, body: any): OutputController => ({
   statusCode,
   body
 })
 
-export const badRequest = (error: Error): HttpResponse => ({
+export const badRequest = (error: Error): OutputController => ({
   statusCode: 400,
   body: error
 })
 
-export const unauthorized = (): HttpResponse => ({
+export const unauthorized = (): OutputController => ({
   statusCode: 401,
   body: new UnauthorizedError()
 })
 
-export const forbiddenError = (): HttpResponse => ({
+export const forbiddenError = (): OutputController => ({
   statusCode: 403,
   body: new ForbiddenError()
 })
 
-export const serverError = (error: Error): HttpResponse => ({
+export const serverError = (error: Error): OutputController => ({
   statusCode: 500,
   body: error
 })

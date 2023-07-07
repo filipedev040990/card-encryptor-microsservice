@@ -1,8 +1,9 @@
-export type HttpRequest = {
+export type InputController = {
   body?: any
+  params?: any
 }
 
-export type HttpResponse = {
+export type OutputController = {
   statusCode: number
   body: any
 }
