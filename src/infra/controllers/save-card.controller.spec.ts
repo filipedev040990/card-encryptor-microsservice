@@ -1,13 +1,17 @@
 import { InputController } from '@/shared/types'
 import { SaveCardController } from './save-card.controller'
 import { MissingParamError } from '@/shared/errors'
+import { SaveCardUseCaseInterface } from '@/application/interfaces/save-card-usecase.interface'
+import { mock } from 'jest-mock-extended'
 
 describe('SaveCardController', () => {
   let sut: SaveCardController
   let input: InputController
 
+  const saveCardUseCase = mock<SaveCardUseCaseInterface>()
+
   beforeEach(() => {
-    sut = new SaveCardController()
+    sut = new SaveCardController(saveCardUseCase)
 
     input = {
       body: {
@@ -36,5 +40,18 @@ describe('SaveCardController', () => {
 
       input.body[field] = fieldBackup
     }
+  })
+
+  test('should call SaveCardUseCase once and with correct values', async () => {
+    await sut.execute(input)
+
+    expect(saveCardUseCase.execute).toHaveBeenCalledTimes(1)
+    expect(saveCardUseCase.execute).toHaveBeenCalledWith({
+      brand: 'anyBrand',
+      number: 'anyNumber',
+      cvv: 'anyCvv',
+      expiryMonth: 'anyExpiryMonth',
+      expiryYear: 'anyExpiryYear'
+    })
   })
 })
