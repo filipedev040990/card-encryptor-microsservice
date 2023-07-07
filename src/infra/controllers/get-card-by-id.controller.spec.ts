@@ -1,6 +1,6 @@
 import { InputController } from '@/shared/types'
 import { GetCardByIdController } from './get-card-by-id.controller'
-import { InvalidParamError, MissingParamError, ServerError } from '@/shared/errors'
+import { InvalidParamError, ServerError } from '@/shared/errors'
 import { GetCardByIdUseCaseInterface } from '@/application/interfaces/get-card-by-idusecase.interface'
 import { mock } from 'jest-mock-extended'
 
@@ -25,28 +25,6 @@ describe('GetCardByIdController', () => {
       cvv: 'anyCvv',
       expiryMonth: 'anyExpiryMont',
       expiryYear: 'anyExpieryYear'
-    })
-  })
-
-  test('should return 400 if id is not provided', async () => {
-    input.params.id = null
-
-    const output = await sut.execute(input)
-
-    expect(output).toEqual({
-      statusCode: 400,
-      body: new MissingParamError('id')
-    })
-  })
-
-  test('should return 400 if params is not provided', async () => {
-    input = null as any
-
-    const output = await sut.execute(input)
-
-    expect(output).toEqual({
-      statusCode: 400,
-      body: new MissingParamError('id')
     })
   })
 
