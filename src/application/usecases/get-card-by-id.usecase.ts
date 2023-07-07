@@ -12,7 +12,10 @@ export class GetCardByIdUseCase implements GetCardByIdUseCaseInterface {
     const encryptedData = await this.repository.getById(id)
 
     if (encryptedData) {
-      this.cryptography.decrypt(encryptedData)
+      const decryptedData = this.cryptography.decrypt(encryptedData)
+      if (decryptedData) {
+        return decryptedData
+      }
     }
     return null
   }

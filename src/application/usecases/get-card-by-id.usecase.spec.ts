@@ -1,7 +1,7 @@
 import { mock } from 'jest-mock-extended'
-import { GetCardByIdUseCase } from './get-card.usecase'
-import { CardRepositoryInterface } from '../interfaces/card-repository.interface'
-import { CryptographyInterface } from '../interfaces/cryptography.interface'
+import { GetCardByIdUseCase } from './get-card-by-id.usecase'
+import { CardRepositoryInterface } from '@/application/interfaces/card-repository.interface'
+import { CryptographyInterface } from '@/application/interfaces/cryptography.interface'
 
 describe('GetCardUseCase', () => {
   let sut: GetCardByIdUseCase
@@ -51,5 +51,17 @@ describe('GetCardUseCase', () => {
     const output = await sut.execute('anyId')
 
     expect(output).toBeNull()
+  })
+
+  test('should return an decrypted card data', async () => {
+    const output = await sut.execute('anyId')
+
+    expect(output).toEqual({
+      brand: 'anyBrand',
+      number: 'anyNumber',
+      cvv: 'anyCvv',
+      expiryMonth: 'anyExpiryMont',
+      expiryYear: 'anyExpieryYear'
+    })
   })
 })
