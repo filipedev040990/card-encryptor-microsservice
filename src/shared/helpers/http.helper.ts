@@ -1,5 +1,5 @@
-import { ForbiddenError, UnauthorizedError } from '@/application/errors'
-import { HttpResponse } from '@/application/types'
+import { HttpResponse } from '@/shared/types'
+import { UnauthorizedError, ForbiddenError } from '../errors'
 
 export const success = (statusCode: number, body: any): HttpResponse => ({
   statusCode,
