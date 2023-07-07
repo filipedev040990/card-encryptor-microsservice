@@ -18,6 +18,14 @@ describe('GetCardByIdController', () => {
         id: 'anyCardId'
       }
     }
+
+    getCardByIdUseCase.execute.mockResolvedValue({
+      brand: 'anyBrand',
+      number: 'anyNumber',
+      cvv: 'anyCvv',
+      expiryMonth: 'anyExpiryMont',
+      expiryYear: 'anyExpieryYear'
+    })
   })
 
   test('should return 400 if id is not provided', async () => {
@@ -57,6 +65,21 @@ describe('GetCardByIdController', () => {
     expect(output).toEqual({
       statusCode: 400,
       body: new InvalidParamError('id')
+    })
+  })
+
+  test('should return an decrypted card data', async () => {
+    const output = await sut.execute(input)
+
+    expect(output).toEqual({
+      statusCode: 200,
+      body: {
+        brand: 'anyBrand',
+        number: 'anyNumber',
+        cvv: 'anyCvv',
+        expiryMonth: 'anyExpiryMont',
+        expiryYear: 'anyExpieryYear'
+      }
     })
   })
 })

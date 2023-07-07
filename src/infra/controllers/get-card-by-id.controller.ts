@@ -1,6 +1,6 @@
 import { GetCardByIdUseCaseInterface } from '@/application/interfaces/get-card-by-idusecase.interface'
 import { InvalidParamError, MissingParamError } from '@/shared/errors'
-import { badRequest } from '@/shared/helpers/http.helper'
+import { badRequest, success } from '@/shared/helpers/http.helper'
 import { InputController } from '@/shared/types'
 
 export class GetCardByIdController {
@@ -15,5 +15,7 @@ export class GetCardByIdController {
     if (!output) {
       return badRequest(new InvalidParamError('id'))
     }
+
+    return success(200, output)
   }
 }
