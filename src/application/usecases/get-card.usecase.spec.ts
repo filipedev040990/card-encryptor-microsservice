@@ -44,4 +44,12 @@ describe('GetCardUseCase', () => {
 
     expect(output).toBeNull()
   })
+
+  test('should return null if Cryptography decrypt returns null', async () => {
+    cryptography.decrypt.mockReturnValueOnce(null)
+
+    const output = await sut.execute('anyId')
+
+    expect(output).toBeNull()
+  })
 })
