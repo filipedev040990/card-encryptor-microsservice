@@ -1,6 +1,6 @@
 import { InputController } from '@/shared/types'
 import { SaveCardController } from './save-card.controller'
-import { MissingParamError } from '@/shared/errors'
+import { MissingParamError, ServerError } from '@/shared/errors'
 import { SaveCardUseCaseInterface } from '@/application/interfaces/save-card-usecase.interface'
 import { mock } from 'jest-mock-extended'
 
@@ -65,6 +65,17 @@ describe('SaveCardController', () => {
       body: {
         identifier: 'anyIdentifier'
       }
+    })
+  })
+
+  test('should throw if SaveCardUseCase throws', async () => {
+    saveCardUseCase.execute.mockImplementationOnce(() => { throw new Error() })
+
+    const output = await sut.execute(input)
+
+    expect(output).toEqual({
+      statusCode: 500,
+      body: new ServerError(new Error())
     })
   })
 })

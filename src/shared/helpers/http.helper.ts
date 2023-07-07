@@ -1,5 +1,5 @@
 import { OutputController } from '@/shared/types'
-import { UnauthorizedError, ForbiddenError } from '../errors'
+import { UnauthorizedError, ForbiddenError, ServerError } from '../errors'
 
 export const success = (statusCode: number, body: any): OutputController => ({
   statusCode,
@@ -23,5 +23,5 @@ export const forbiddenError = (): OutputController => ({
 
 export const serverError = (error: Error): OutputController => ({
   statusCode: 500,
-  body: error
+  body: new ServerError(error)
 })
