@@ -1,9 +1,10 @@
 import { DeleteCardUseCaseInterface } from '@/application/interfaces/delete-card-usecase.interface'
+import { GeneralController } from '@/application/interfaces/general-controller.interface'
 import { ServerError } from '@/shared/errors'
 import { serverError, success } from '@/shared/helpers/http.helper'
 import { InputController, OutputController } from '@/shared/types'
 
-export class DeleteCardController {
+export class DeleteCardController implements GeneralController {
   constructor (private readonly deleteCardUseCase: DeleteCardUseCaseInterface) {}
 
   async execute (input: InputController): Promise<OutputController> {
