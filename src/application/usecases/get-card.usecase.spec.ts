@@ -36,4 +36,12 @@ describe('GetCardUseCase', () => {
     expect(cryptography.decrypt).toHaveBeenCalledTimes(1)
     expect(cryptography.decrypt).toHaveBeenCalledWith('encryptedCard')
   })
+
+  test('should return null if CardRepository.getbyId returns null', async () => {
+    repository.getById.mockResolvedValueOnce(null)
+
+    const output = await sut.execute('anyId')
+
+    expect(output).toBeNull()
+  })
 })
