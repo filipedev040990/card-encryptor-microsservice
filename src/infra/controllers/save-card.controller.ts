@@ -1,9 +1,10 @@
+import { GeneralController } from '@/application/interfaces/general-controller.interface'
 import { SaveCardUseCaseInterface } from '@/application/interfaces/save-card-usecase.interface'
 import { MissingParamError } from '@/shared/errors'
 import { badRequest, serverError, success } from '@/shared/helpers/http.helper'
 import { InputController, OutputController } from '@/shared/types'
 
-export class SaveCardController {
+export class SaveCardController implements GeneralController {
   constructor (private readonly saveCardUseCase: SaveCardUseCaseInterface) {}
 
   async execute (input: InputController): Promise<OutputController> {
