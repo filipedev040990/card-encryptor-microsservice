@@ -20,14 +20,21 @@ describe('SaveCardController', () => {
     }
   })
 
-  test('should return 400 if card brand is not provided', async () => {
-    input.body.brand = null
+  test('should return 400 if any required field is not provided', async () => {
+    const requiredFields = ['brand', 'number', 'cvv', 'expiryMonth', 'expiryYear']
 
-    const output = await sut.execute(input)
+    for (const field of requiredFields) {
+      const fieldBackup = input.body[field]
+      input.body[field] = null
 
-    expect(output).toEqual({
-      statusCode: 400,
-      body: new MissingParamError('brand')
-    })
+      const output = await sut.execute(input)
+
+      expect(output).toEqual({
+        statusCode: 400,
+        body: new MissingParamError(field)
+      })
+
+      input.body[field] = fieldBackup
+    }
   })
 })

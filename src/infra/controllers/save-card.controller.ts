@@ -11,7 +11,7 @@ export class SaveCardController {
   }
 
   private validateInput (input: InputController): string | null {
-    const requiredFields = ['brand']
+    const requiredFields = ['brand', 'number', 'cvv', 'expiryMonth', 'expiryYear']
     for (const field of requiredFields) {
       if (!input.body[field]) {
         return field
