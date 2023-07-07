@@ -22,6 +22,8 @@ describe('SaveCardController', () => {
         expiryYear: 'anyExpiryYear'
       }
     }
+
+    saveCardUseCase.execute.mockResolvedValue('anyIdentifier')
   })
 
   test('should return 400 if any required field is not provided', async () => {
@@ -52,6 +54,17 @@ describe('SaveCardController', () => {
       cvv: 'anyCvv',
       expiryMonth: 'anyExpiryMonth',
       expiryYear: 'anyExpiryYear'
+    })
+  })
+
+  test('should return an identifier on success', async () => {
+    const output = await sut.execute(input)
+
+    expect(output).toEqual({
+      statusCode: 201,
+      body: {
+        identifier: 'anyIdentifier'
+      }
     })
   })
 })

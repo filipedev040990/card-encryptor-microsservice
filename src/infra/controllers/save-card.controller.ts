@@ -1,18 +1,20 @@
 import { SaveCardUseCaseInterface } from '@/application/interfaces/save-card-usecase.interface'
 import { MissingParamError } from '@/shared/errors'
-import { badRequest } from '@/shared/helpers/http.helper'
-import { InputController } from '@/shared/types'
+import { badRequest, success } from '@/shared/helpers/http.helper'
+import { InputController, OutputController } from '@/shared/types'
 
 export class SaveCardController {
   constructor (private readonly saveCardUseCase: SaveCardUseCaseInterface) {}
 
-  async execute (input: InputController): Promise<any> {
+  async execute (input: InputController): Promise<OutputController> {
     const missingParam = this.validateInput(input)
     if (missingParam) {
       return badRequest(new MissingParamError(missingParam))
     }
 
-    await this.saveCardUseCase.execute(input.body)
+    const identifier = await this.saveCardUseCase.execute(input.body)
+
+    return success(201, { identifier })
   }
 
   private validateInput (input: InputController): string | null {
