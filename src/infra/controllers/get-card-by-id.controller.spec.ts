@@ -1,6 +1,6 @@
 import { InputController } from '@/shared/types'
 import { GetCardByIdController } from './get-card-by-id.controller'
-import { InvalidParamError, ServerError } from '@/shared/errors'
+import { ServerError } from '@/shared/errors'
 import { GetCardByIdUseCaseInterface } from '@/application/interfaces/get-card-by-idusecase.interface'
 import { mock } from 'jest-mock-extended'
 
@@ -42,7 +42,7 @@ describe('GetCardByIdController', () => {
 
     expect(output).toEqual({
       statusCode: 400,
-      body: new InvalidParamError('id')
+      body: 'Invalid param: id'
     })
   })
 

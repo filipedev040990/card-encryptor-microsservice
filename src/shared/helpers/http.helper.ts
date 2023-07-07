@@ -8,7 +8,7 @@ export const success = (statusCode: number, body: any): OutputController => ({
 
 export const badRequest = (error: Error): OutputController => ({
   statusCode: 400,
-  body: error
+  body: error.message
 })
 
 export const unauthorized = (): OutputController => ({

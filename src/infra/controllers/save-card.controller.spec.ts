@@ -1,6 +1,6 @@
 import { InputController } from '@/shared/types'
 import { SaveCardController } from './save-card.controller'
-import { MissingParamError, ServerError } from '@/shared/errors'
+import { ServerError } from '@/shared/errors'
 import { SaveCardUseCaseInterface } from '@/application/interfaces/save-card-usecase.interface'
 import { mock } from 'jest-mock-extended'
 
@@ -37,7 +37,7 @@ describe('SaveCardController', () => {
 
       expect(output).toEqual({
         statusCode: 400,
-        body: new MissingParamError(field)
+        body: `Missing param: ${field}`
       })
 
       input.body[field] = fieldBackup
