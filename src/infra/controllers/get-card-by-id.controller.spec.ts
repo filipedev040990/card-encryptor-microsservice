@@ -1,6 +1,6 @@
 import { InputController } from '@/shared/types'
 import { GetCardByIdController } from './get-card-by-id.controller'
-import { InvalidParamError, MissingParamError } from '@/shared/errors'
+import { InvalidParamError, MissingParamError, ServerError } from '@/shared/errors'
 import { GetCardByIdUseCaseInterface } from '@/application/interfaces/get-card-by-idusecase.interface'
 import { mock } from 'jest-mock-extended'
 
@@ -80,6 +80,17 @@ describe('GetCardByIdController', () => {
         expiryMonth: 'anyExpiryMont',
         expiryYear: 'anyExpieryYear'
       }
+    })
+  })
+
+  test('should throw if GetCardByIdUseCase throws', async () => {
+    getCardByIdUseCase.execute.mockImplementationOnce(() => { throw new Error() })
+
+    const output = await sut.execute(input)
+
+    expect(output).toEqual({
+      statusCode: 500,
+      body: new ServerError(new Error())
     })
   })
 })
