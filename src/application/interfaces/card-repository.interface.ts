@@ -1,9 +1,9 @@
-export interface CardRepository {
-  save(input: CardRepository.Input): Promise<void>
+export interface CardRepositoryInterface {
+  save(input: CardRepositoryInterface.Input): Promise<void>
   delete (id: string): Promise<void>
 }
 
-export namespace CardRepository {
+export namespace CardRepositoryInterface {
   export type Input = {
     id: string
     encryptedCard: string

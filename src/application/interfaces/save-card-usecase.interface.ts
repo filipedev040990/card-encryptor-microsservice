@@ -1,5 +1,5 @@
 export interface SaveCardUseCaseInterface {
-  execute(input: SaveCardUseCaseInterface.Input): Promise<SaveCardUseCaseInterface.Output>
+  execute(input: SaveCardUseCaseInterface.Input): Promise<string>
 }
 
 export namespace SaveCardUseCaseInterface {
@@ -9,9 +9,5 @@ export namespace SaveCardUseCaseInterface {
     cvv: string
     expiryMonth: string
     expiryYear: string
-  }
-
-  export type Output = {
-    cardIdentifier: string
   }
 }
