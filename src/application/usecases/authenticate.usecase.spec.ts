@@ -19,7 +19,7 @@ describe('AuthenticateApplicationUseCase', () => {
       secretKey: 'anySecretKey'
     }
 
-    repository.authenticate.mockResolvedValueOnce(true)
+    repository.authenticate.mockResolvedValue(true)
     token.generate.mockReturnValue('anyToken')
   })
 
@@ -49,5 +49,13 @@ describe('AuthenticateApplicationUseCase', () => {
       appId: 'anyAppId',
       secretKey: 'anySecretKey'
     })
+  })
+
+  test('should not call TokenGenerator if ApplicationRepository.authenticate returns false', async () => {
+    repository.authenticate.mockResolvedValueOnce(false)
+
+    await sut.execute(input)
+
+    expect(token.generate).not.toHaveBeenCalled()
   })
 })

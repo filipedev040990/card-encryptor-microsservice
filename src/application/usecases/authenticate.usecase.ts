@@ -9,8 +9,10 @@ export class AuthenticateApplicationUseCase implements AuthenticateApplicationUs
   ) {}
 
   async execute (input: AuthenticateApplicationUseCaseInterface.Input): Promise<AuthenticateApplicationUseCaseInterface.Output | null> {
-    await this.repository.authenticate(input)
-    this.token.generate(input)
+    const appExists = await this.repository.authenticate(input)
+    if (appExists) {
+      this.token.generate(input)
+    }
     return null
   }
 }
