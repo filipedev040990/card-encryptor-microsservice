@@ -4,6 +4,9 @@ import { CardRepositoryInterface } from '../interfaces/card-repository.interface
 export class DeleteCardUseCase implements DeleteCardUseCaseInterface {
   constructor (private readonly repository: CardRepositoryInterface) {}
   async execute (id: string): Promise<void> {
-    await this.repository.delete(id)
+    const card = await this.repository.getById(id)
+    if (card) {
+      await this.repository.delete(id)
+    }
   }
 }
