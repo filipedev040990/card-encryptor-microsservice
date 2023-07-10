@@ -2,15 +2,17 @@ import { AuthenticateApplicationUseCaseInterface } from '../interfaces/authentic
 import { AuthenticateApplicationUseCase } from './authenticate.usecase'
 import { ApplicationRepositoryInterface } from '../interfaces/application-repository.interface'
 import { mock } from 'jest-mock-extended'
+import { TokenInterface } from '../interfaces/token.interface'
 
 describe('AuthenticateApplicationUseCase', () => {
   let sut: AuthenticateApplicationUseCase
   let input: AuthenticateApplicationUseCaseInterface.Input
 
   const repository = mock<ApplicationRepositoryInterface>()
+  const token = mock<TokenInterface>()
 
   beforeAll(() => {
-    sut = new AuthenticateApplicationUseCase(repository)
+    sut = new AuthenticateApplicationUseCase(repository, token)
 
     input = {
       appId: 'anyAppId',
@@ -18,6 +20,7 @@ describe('AuthenticateApplicationUseCase', () => {
     }
 
     repository.authenticate.mockResolvedValueOnce(true)
+    token.generate.mockReturnValue('anyToken')
   })
 
   test('should call ApplicationRepository.authenticate once and with correct values', async () => {
@@ -36,5 +39,15 @@ describe('AuthenticateApplicationUseCase', () => {
     const output = await sut.execute(input)
 
     expect(output).toBeNull()
+  })
+
+  test('should call TokenGenerator once and with correct values', async () => {
+    await sut.execute(input)
+
+    expect(token.generate).toHaveBeenCalledTimes(1)
+    expect(token.generate).toHaveBeenCalledWith({
+      appId: 'anyAppId',
+      secretKey: 'anySecretKey'
+    })
   })
 })
