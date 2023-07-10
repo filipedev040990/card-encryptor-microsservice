@@ -1,19 +1,24 @@
 import { AuthenticateApplicationUseCaseInterface } from '@/application/interfaces/authenticate-usecase.interface'
+import { GeneralController } from '@/application/interfaces/general-controller.interface'
 import { MissingParamError } from '@/shared/errors'
-import { badRequest, success } from '@/shared/helpers/http.helper'
-import { InputController } from '@/shared/types'
+import { badRequest, success, unauthorized } from '@/shared/helpers/http.helper'
+import { InputController, OutputController } from '@/shared/types'
 
-export class AuthenticateController {
+export class AuthenticateController implements GeneralController {
   constructor (private readonly authenticateApplicationUseCase: AuthenticateApplicationUseCaseInterface) {}
 
-  async execute (input: InputController): Promise<any> {
+  async execute (input: InputController): Promise<OutputController> {
     const missingParam = this.validateInput(input)
     if (missingParam) {
       return badRequest(new MissingParamError(missingParam))
     }
 
     const output = await this.authenticateApplicationUseCase.execute(input.body)
-    return success(200, output)
+    if (output) {
+      return success(200, output)
+    }
+
+    return unauthorized()
   }
 
   private validateInput (input: InputController): string | null {

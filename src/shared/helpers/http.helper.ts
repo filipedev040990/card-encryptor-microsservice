@@ -13,7 +13,7 @@ export const badRequest = (error: Error): OutputController => ({
 
 export const unauthorized = (): OutputController => ({
   statusCode: 401,
-  body: new UnauthorizedError()
+  body: new UnauthorizedError().message
 })
 
 export const forbiddenError = (): OutputController => ({

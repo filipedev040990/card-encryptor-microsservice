@@ -56,4 +56,15 @@ describe('AuthenticateController', () => {
       body: { token: 'anyToken' }
     })
   })
+
+  test('should return 401 if AuthenticateUseCase returns null', async () => {
+    authenticateApplicationUseCase.execute.mockResolvedValueOnce(null)
+
+    const output = await sut.execute(input)
+
+    expect(output).toEqual({
+      statusCode: 401,
+      body: 'Unauthorized'
+    })
+  })
 })
