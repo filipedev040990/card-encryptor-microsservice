@@ -1,5 +1,5 @@
 export interface ApplicationRepositoryInterface {
-  authenticate (input: ApplicationRepositoryInterface.Input): Promise<string | null>
+  authenticate (input: ApplicationRepositoryInterface.Input): Promise<boolean>
 }
 
 export namespace ApplicationRepositoryInterface {

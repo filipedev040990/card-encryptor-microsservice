@@ -1,7 +1,7 @@
-import { mock } from 'jest-mock-extended'
 import { AuthenticateApplicationUseCaseInterface } from '../interfaces/authenticate-usecase.interface'
 import { AuthenticateApplicationUseCase } from './authenticate.usecase'
 import { ApplicationRepositoryInterface } from '../interfaces/application-repository.interface'
+import { mock } from 'jest-mock-extended'
 
 describe('AuthenticateApplicationUseCase', () => {
   let sut: AuthenticateApplicationUseCase
@@ -16,6 +16,8 @@ describe('AuthenticateApplicationUseCase', () => {
       appId: 'anyAppId',
       secretKey: 'anySecretKey'
     }
+
+    repository.authenticate.mockResolvedValueOnce(true)
   })
 
   test('should call ApplicationRepository.authenticate once and with correct values', async () => {
@@ -26,5 +28,13 @@ describe('AuthenticateApplicationUseCase', () => {
       appId: 'anyAppId',
       secretKey: 'anySecretKey'
     })
+  })
+
+  test('should return null if ApplicationRepository.authenticate returns false', async () => {
+    repository.authenticate.mockResolvedValueOnce(false)
+
+    const output = await sut.execute(input)
+
+    expect(output).toBeNull()
   })
 })
