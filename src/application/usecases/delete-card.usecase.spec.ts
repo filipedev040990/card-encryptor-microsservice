@@ -10,6 +10,8 @@ describe('DeleteCardUseCase', () => {
 
   beforeAll(() => {
     sut = new DeleteCardUseCase(repository)
+
+    repository.getById.mockResolvedValue('anyEncryptedCard')
   })
 
   test('should call CardRepository.delete once and with correct id', async () => {
@@ -17,5 +19,13 @@ describe('DeleteCardUseCase', () => {
 
     expect(repository.delete).toHaveBeenCalledTimes(1)
     expect(repository.delete).toHaveBeenCalledWith(id)
+  })
+
+  test('should not call CardRepository.delete once and with correct id', async () => {
+    repository.getById.mockResolvedValue(null)
+
+    await sut.execute(id)
+
+    expect(repository.delete).not.toHaveBeenCalled()
   })
 })
