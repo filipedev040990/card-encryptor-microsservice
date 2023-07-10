@@ -1,10 +1,12 @@
 export interface ApplicationRepositoryInterface {
-  authenticate (input: ApplicationRepositoryInterface.Input): Promise<boolean>
+  getByAppId (appId: string): Promise<ApplicationRepositoryInterface.Output | null>
 }
 
 export namespace ApplicationRepositoryInterface {
-  export type Input = {
+  export type Output = {
+    id: string
     appId: string
+    description: string
     secretKey: string
   }
 }
