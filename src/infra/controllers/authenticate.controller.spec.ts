@@ -18,9 +18,11 @@ describe('AuthenticateController', () => {
         secretKey: 'anySecretKey'
       }
     }
+
+    authenticateApplicationUseCase.execute.mockResolvedValue({ token: 'anyToken' })
   })
 
-  test('should return 400 if anhy required field is not provided', async () => {
+  test('should return 400 if any required field is not provided', async () => {
     const requiredFields = ['appId', 'secretKey']
 
     for (const field of requiredFields) {
@@ -44,5 +46,14 @@ describe('AuthenticateController', () => {
 
     expect(authenticateApplicationUseCase.execute).toHaveBeenCalledTimes(1)
     expect(authenticateApplicationUseCase.execute).toHaveBeenCalledWith(input.body)
+  })
+
+  test('should return an access token on success', async () => {
+    const output = await sut.execute(input)
+
+    expect(output).toEqual({
+      statusCode: 200,
+      body: { token: 'anyToken' }
+    })
   })
 })

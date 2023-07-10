@@ -1,6 +1,6 @@
 import { AuthenticateApplicationUseCaseInterface } from '@/application/interfaces/authenticate-usecase.interface'
 import { MissingParamError } from '@/shared/errors'
-import { badRequest } from '@/shared/helpers/http.helper'
+import { badRequest, success } from '@/shared/helpers/http.helper'
 import { InputController } from '@/shared/types'
 
 export class AuthenticateController {
@@ -12,7 +12,8 @@ export class AuthenticateController {
       return badRequest(new MissingParamError(missingParam))
     }
 
-    await this.authenticateApplicationUseCase.execute(input.body)
+    const output = await this.authenticateApplicationUseCase.execute(input.body)
+    return success(200, output)
   }
 
   private validateInput (input: InputController): string | null {
