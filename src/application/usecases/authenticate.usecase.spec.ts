@@ -58,4 +58,10 @@ describe('AuthenticateApplicationUseCase', () => {
 
     expect(token.generate).not.toHaveBeenCalled()
   })
+
+  test('should return an token on success', async () => {
+    const output = await sut.execute(input)
+
+    expect(output).toEqual({ token: 'anyToken' })
+  })
 })

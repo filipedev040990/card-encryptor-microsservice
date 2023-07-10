@@ -11,7 +11,8 @@ export class AuthenticateApplicationUseCase implements AuthenticateApplicationUs
   async execute (input: AuthenticateApplicationUseCaseInterface.Input): Promise<AuthenticateApplicationUseCaseInterface.Output | null> {
     const appExists = await this.repository.authenticate(input)
     if (appExists) {
-      this.token.generate(input)
+      const token = this.token.generate(input)
+      return { token }
     }
     return null
   }
