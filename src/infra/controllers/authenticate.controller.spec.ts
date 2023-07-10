@@ -1,12 +1,16 @@
 import { InputController } from '@/shared/types'
 import { AuthenticateController } from './authenticate.controller'
+import { mock } from 'jest-mock-extended'
+import { AuthenticateApplicationUseCaseInterface } from '@/application/interfaces/authenticate-usecase.interface'
 
 describe('AuthenticateController', () => {
   let sut: AuthenticateController
   let input: InputController
 
+  const authenticateApplicationUseCase = mock<AuthenticateApplicationUseCaseInterface>()
+
   beforeEach(() => {
-    sut = new AuthenticateController()
+    sut = new AuthenticateController(authenticateApplicationUseCase)
 
     input = {
       body: {
@@ -33,5 +37,12 @@ describe('AuthenticateController', () => {
 
       input.body[field] = fieldBackup
     }
+  })
+
+  test('should call AuthenticateUseCase once with correct values', async () => {
+    await sut.execute(input)
+
+    expect(authenticateApplicationUseCase.execute).toHaveBeenCalledTimes(1)
+    expect(authenticateApplicationUseCase.execute).toHaveBeenCalledWith(input.body)
   })
 })
