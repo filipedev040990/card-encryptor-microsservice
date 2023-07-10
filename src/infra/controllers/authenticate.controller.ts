@@ -4,8 +4,20 @@ import { InputController } from '@/shared/types'
 
 export class AuthenticateController {
   async execute (input: InputController): Promise<any> {
-    if (!input.body.appid) {
-      return badRequest(new MissingParamError('appId'))
+    const missingParam = this.validateInput(input)
+    if (missingParam) {
+      return badRequest(new MissingParamError(missingParam))
     }
+  }
+
+  private validateInput (input: InputController): string | null {
+    const requiredFields = ['appId', 'secretKey']
+
+    for (const field of requiredFields) {
+      if (!input.body[field]) {
+        return field
+      }
+    }
+    return null
   }
 }

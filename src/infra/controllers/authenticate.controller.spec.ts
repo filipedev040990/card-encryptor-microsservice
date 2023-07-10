@@ -16,12 +16,22 @@ describe('AuthenticateController', () => {
     }
   })
 
-  test('should return 400 if appId is not provided', async () => {
-    const output = await sut.execute(input)
+  test('should return 400 if anhy required field is not provided', async () => {
+    const requiredFields = ['appId', 'secretKey']
 
-    expect(output).toEqual({
-      statusCode: 400,
-      body: 'Missing param: appId'
-    })
+    for (const field of requiredFields) {
+      const fieldBackup = input.body[field]
+
+      input.body[field] = null
+
+      const output = await sut.execute(input)
+
+      expect(output).toEqual({
+        statusCode: 400,
+        body: `Missing param: ${field}`
+      })
+
+      input.body[field] = fieldBackup
+    }
   })
 })
