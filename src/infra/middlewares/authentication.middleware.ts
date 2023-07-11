@@ -1,6 +1,6 @@
 import { ApplicationRepositoryInterface } from '@/application/interfaces/application-repository.interface'
 import { TokenInterface } from '@/application/interfaces/token.interface'
-import { forbiddenError, unauthorized } from '@/shared/helpers/http.helper'
+import { forbiddenError, success, unauthorized } from '@/shared/helpers/http.helper'
 import { InputController } from '@/shared/types'
 
 export class AuthenticationMiddleware {
@@ -15,7 +15,10 @@ export class AuthenticationMiddleware {
 
       const response = await this.token.validate(token)
       if (response) {
-        await this.repository.getByAppId(response.appId)
+        const application = await this.repository.getByAppId(response.appId)
+        if (application) {
+          return success(200, application)
+        }
       }
 
       return unauthorized()

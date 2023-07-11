@@ -78,4 +78,18 @@ describe('AuthenticationMiddleware', () => {
 
     expect(output).toEqual({ statusCode: 401, body: 'Unauthorized' })
   })
+
+  test('should return 200 and application data on success', async () => {
+    const output = await sut.execute(input)
+
+    expect(output).toEqual({
+      statusCode: 200,
+      body: {
+        id: 'anyId',
+        appId: 'anyAppId',
+        description: 'anyDescription',
+        secretKey: 'hashedSecretKey'
+      }
+    })
+  })
 })
