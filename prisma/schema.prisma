@@ -26,3 +26,16 @@ model Applications {
 
   @@map("applications")
 }
+
+model Request {
+  id        String    @id
+  path      String
+  method    String
+  input     String    @db.LongText()
+  output    String?   @db.LongText()
+  status    Int?
+  createdAt DateTime
+  updatedAt DateTime?
+
+  @@map("requests")
+}
