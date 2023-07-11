@@ -70,4 +70,12 @@ describe('AuthenticationMiddleware', () => {
     expect(repository.getByAppId).toHaveBeenCalledTimes(1)
     expect(repository.getByAppId).toHaveBeenCalledWith('anyAppId')
   })
+
+  test('should return 401 if ApplicationsRepository.getByAppId returns null', async () => {
+    repository.getByAppId.mockResolvedValueOnce(null)
+
+    const output = await sut.execute(input)
+
+    expect(output).toEqual({ statusCode: 401, body: 'Unauthorized' })
+  })
 })
