@@ -2,15 +2,17 @@ import { InputController } from '@/shared/types'
 import { AuthenticationMiddleware } from './authentication.middleware'
 import { mock } from 'jest-mock-extended'
 import { TokenInterface } from '@/application/interfaces/token.interface'
+import { ApplicationRepositoryInterface } from '@/application/interfaces/application-repository.interface'
 
 describe('AuthenticationMiddleware', () => {
   let sut: AuthenticationMiddleware
   let input: InputController
 
   const token = mock<TokenInterface>()
+  const repository = mock<ApplicationRepositoryInterface>()
 
   beforeEach(() => {
-    sut = new AuthenticationMiddleware(token)
+    sut = new AuthenticationMiddleware(token, repository)
 
     input = {
       headers: {
@@ -18,7 +20,17 @@ describe('AuthenticationMiddleware', () => {
       }
     }
 
-    token.validate.mockResolvedValue('any Response')
+    token.validate.mockResolvedValue({
+      appId: 'anyAppId',
+      secretKey: 'hashedSecretKey'
+    })
+
+    repository.getByAppId.mockResolvedValue({
+      id: 'anyId',
+      appId: 'anyAppId',
+      description: 'anyDescription',
+      secretKey: 'hashedSecretKey'
+    })
   })
 
   test('should return 403 if Auhtorization header is not provided', async () => {
@@ -50,5 +62,12 @@ describe('AuthenticationMiddleware', () => {
     const output = await sut.execute(input)
 
     expect(output).toEqual({ statusCode: 401, body: 'Unauthorized' })
+  })
+
+  test('should call ApplicationsRepository.getByAppId retuonce and with correct appId', async () => {
+    await sut.execute(input)
+
+    expect(repository.getByAppId).toHaveBeenCalledTimes(1)
+    expect(repository.getByAppId).toHaveBeenCalledWith('anyAppId')
   })
 })
