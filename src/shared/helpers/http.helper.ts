@@ -18,7 +18,7 @@ export const unauthorized = (): OutputController => ({
 
 export const forbiddenError = (): OutputController => ({
   statusCode: 403,
-  body: new ForbiddenError()
+  body: new ForbiddenError().message
 })
 
 export const serverError = (error: Error): OutputController => ({

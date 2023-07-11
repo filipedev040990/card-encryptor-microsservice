@@ -22,7 +22,7 @@ export class ServerError extends Error {
 
 export class ForbiddenError extends Error {
   constructor () {
-    super('Forbidden')
+    super('Forbidden: JWT is required')
     this.name = 'ForbiddenError'
   }
 }

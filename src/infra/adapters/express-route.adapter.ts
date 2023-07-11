@@ -6,7 +6,8 @@ export const expressRouteAdapter = (controller: GeneralController) => {
   return async (req: Request, res: Response) => {
     const input: InputController = {
       body: req?.body,
-      params: req?.params
+      params: req?.params,
+      headers: req?.headers
     }
 
     const { statusCode, body } = await controller.execute(input)
