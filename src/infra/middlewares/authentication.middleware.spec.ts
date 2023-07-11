@@ -43,4 +43,12 @@ describe('AuthenticationMiddleware', () => {
     expect(token.validate).toHaveBeenCalledTimes(1)
     expect(token.validate).toHaveBeenCalledWith('XPTO')
   })
+
+  test('should return 401 if Auhtorization fails', async () => {
+    token.validate.mockResolvedValueOnce(null)
+
+    const output = await sut.execute(input)
+
+    expect(output).toEqual({ statusCode: 401, body: 'Unauthorized' })
+  })
 })
